@@ -12,17 +12,16 @@ public static class OpenLoopsRepository
     public static Guid Add(OpenLoop newOpenLoop)
     {
         Directory.CreateDirectory(DirectoryName);
-        var openLoopId = Guid.NewGuid();
 
         var json = JsonSerializer.Serialize(
-            newOpenLoop with { Id = openLoopId },
+            newOpenLoop,
             new JsonSerializerOptions { WriteIndented = true });
 
-        var fileName = $"{openLoopId}.json";
+        var fileName = $"{newOpenLoop.Id}.json";
         var filePath = Path.Combine(BaseDirectory, DirectoryName, fileName);
         File.WriteAllText(filePath, json);
 
-        return openLoopId;
+        return newOpenLoop.Id;
     }
 
     public static OpenLoop[] Get()

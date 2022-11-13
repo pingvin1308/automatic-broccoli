@@ -43,12 +43,7 @@ public class OpenLoopsController : ControllerBase
     [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Create([FromBody]CreateOpenLoopRequest request)
     {
-        var openLoop = new OpenLoop
-        {
-            Note = request.Note,
-            CreatedDate = DateTimeOffset.UtcNow
-        };
-
+        var openLoop = new OpenLoop(Guid.NewGuid(), request.Note, DateTimeOffset.UtcNow);
         var openLoopId = OpenLoopsRepository.Add(openLoop);
         return Ok(openLoopId);
     }

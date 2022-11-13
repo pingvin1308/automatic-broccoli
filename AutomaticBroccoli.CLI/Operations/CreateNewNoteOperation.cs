@@ -15,11 +15,10 @@ public class CreateNewNoteOperation : IOperation
             note = Console.ReadLine();
         } while (string.IsNullOrWhiteSpace(note));
 
-        var openLoop = new OpenLoop
-        {
-            Note = note,
-            CreatedDate = DateTimeOffset.UtcNow
-        };
+        var openLoop = new OpenLoop(
+            id: Guid.NewGuid(),
+            note: note,
+            createdDate: DateTimeOffset.UtcNow);
 
         OpenLoopsRepository.Add(openLoop);
     }
