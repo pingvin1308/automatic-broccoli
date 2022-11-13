@@ -1,13 +1,12 @@
 using System.Text.Json;
 using AutomaticBroccoli.DataAccess;
-using Microsoft.VisualBasic;
 
 namespace AutomaticBroccoli.CLI;
 
 public static class OpenLoopsRepository
 {
-    private static string DirectoryName = "./openLoops/";
-    private static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+    public static string DirectoryName = "./openLoops/";
+    public static string DataDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DirectoryName);
 
     public static Guid Add(OpenLoop newOpenLoop)
     {
@@ -18,7 +17,7 @@ public static class OpenLoopsRepository
             new JsonSerializerOptions { WriteIndented = true });
 
         var fileName = $"{newOpenLoop.Id}.json";
-        var filePath = Path.Combine(BaseDirectory, DirectoryName, fileName);
+        var filePath = Path.Combine(DataDirectory, fileName);
         File.WriteAllText(filePath, json);
 
         return newOpenLoop.Id;
@@ -26,8 +25,7 @@ public static class OpenLoopsRepository
 
     public static OpenLoop[] Get()
     {
-        var filesPath = Path.Combine(BaseDirectory, DirectoryName);
-        var files = Directory.GetFiles(filesPath);
+        var files = Directory.GetFiles(DataDirectory);
 
         var openLoops = new List<OpenLoop>();
 
