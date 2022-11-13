@@ -1,3 +1,5 @@
+using AutomaticBroccoli.DataAccess;
+
 namespace AutomaticBroccoli.CLI.Operations;
 
 public class CreateNewNoteOperation : IOperation

@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.API", "AutomaticBroccoli.API\AutomaticBroccoli.API.csproj", "{5994EF2F-4B96-4119-94F9-98749B91F48A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.CLI", "AutomaticBroccoli.CLI\AutomaticBroccoli.CLI.csproj", "{309E8F00-7468-4503-A0B2-DC355E7632CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.DataAccess", "AutomaticBroccoli.DataAccess\AutomaticBroccoli.DataAccess.csproj", "{A3338952-9027-4BCB-92D4-863CB563FEA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.UnitTests", "AutomaticBroccoli.UnitTests\AutomaticBroccoli.UnitTests.csproj", "{C0A90D65-D25C-4CAB-A330-CB44E8BAC4AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5994EF2F-4B96-4119-94F9-98749B91F48A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5994EF2F-4B96-4119-94F9-98749B91F48A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5994EF2F-4B96-4119-94F9-98749B91F48A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5994EF2F-4B96-4119-94F9-98749B91F48A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{309E8F00-7468-4503-A0B2-DC355E7632CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{309E8F00-7468-4503-A0B2-DC355E7632CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{309E8F00-7468-4503-A0B2-DC355E7632CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{309E8F00-7468-4503-A0B2-DC355E7632CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3338952-9027-4BCB-92D4-863CB563FEA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3338952-9027-4BCB-92D4-863CB563FEA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3338952-9027-4BCB-92D4-863CB563FEA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3338952-9027-4BCB-92D4-863CB563FEA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0A90D65-D25C-4CAB-A330-CB44E8BAC4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A90D65-D25C-4CAB-A330-CB44E8BAC4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A90D65-D25C-4CAB-A330-CB44E8BAC4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A90D65-D25C-4CAB-A330-CB44E8BAC4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
