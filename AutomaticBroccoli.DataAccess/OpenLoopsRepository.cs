@@ -25,22 +25,29 @@ public static class OpenLoopsRepository
 
     public static OpenLoop[] Get()
     {
-        var files = Directory.GetFiles(DataDirectory);
-
-        var openLoops = new List<OpenLoop>();
-
-        foreach (var file in files)
+        try
         {
-            var json = File.ReadAllText(file);
-            var openLoop = JsonSerializer.Deserialize<OpenLoop>(json);
-            if (openLoop == null)
+            var files = Directory.GetFiles(DataDirectory, "*.json");
+
+            var openLoops = new List<OpenLoop>();
+
+            foreach (var file in files)
             {
-                throw new Exception("OpenLoop cannot be deserialized.");
+                var json = File.ReadAllText(file);
+                var openLoop = JsonSerializer.Deserialize<OpenLoop>(json);
+                if (openLoop == null)
+                {
+                    throw new Exception("OpenLoop cannot be deserialized.");
+                }
+
+                openLoops.Add(openLoop);
             }
 
-            openLoops.Add(openLoop);
+            return openLoops.ToArray();
         }
-
-        return openLoops.ToArray();
+        catch (DirectoryNotFoundException)
+        {
+            return Array.Empty<OpenLoop>();
+        }
     }
 }
