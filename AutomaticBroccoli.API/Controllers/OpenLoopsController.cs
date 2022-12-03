@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AutomaticBroccoli.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Consumes(MediaTypeNames.Application.Json)]
 public class OpenLoopsController : ControllerBase

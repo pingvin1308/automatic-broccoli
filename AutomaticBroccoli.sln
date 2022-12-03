@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.UnitTests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.IntegrationTests", "AutomaticBroccoli.IntegrationTests\AutomaticBroccoli.IntegrationTests.csproj", "{6E8D5957-89AC-45D5-B18C-7A4A6B2CE131}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.DataAccess.Postgres", "AutomaticBroccoli.DataAccess.Postgres\AutomaticBroccoli.DataAccess.Postgres.csproj", "{8B295AD8-53A7-4CEB-B398-A0E51C98B2B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{6E8D5957-89AC-45D5-B18C-7A4A6B2CE131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E8D5957-89AC-45D5-B18C-7A4A6B2CE131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E8D5957-89AC-45D5-B18C-7A4A6B2CE131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B295AD8-53A7-4CEB-B398-A0E51C98B2B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B295AD8-53A7-4CEB-B398-A0E51C98B2B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B295AD8-53A7-4CEB-B398-A0E51C98B2B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B295AD8-53A7-4CEB-B398-A0E51C98B2B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
