@@ -1,12 +1,16 @@
 using System.ComponentModel.DataAnnotations;
-using AutomaticBroccoli.DataAccess.Postgres.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace AutomaticBroccoli.DataAccess.Postgres;
+namespace AutomaticBroccoli.DataAccess.Postgres.Entities;
 
 public class OpenLoop
 {
+    public OpenLoop()
+    {
+        CreatedDate = DateTimeOffset.UtcNow;
+    }
+
     public Guid Id { get; set; }
 
     public string Note { get; set; }
