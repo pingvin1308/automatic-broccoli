@@ -1,5 +1,4 @@
 using System.Net;
-using System.Net.Mime;
 using AutomaticBroccoli.API.Contracts;
 using AutomaticBroccoli.CLI;
 using AutomaticBroccoli.DataAccess;
@@ -7,11 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AutomaticBroccoli.API.Controllers;
 
-[ApiController]
-[Route("v1/[controller]")]
-[Produces(MediaTypeNames.Application.Json)]
-[Consumes(MediaTypeNames.Application.Json)]
-public class OpenLoopsController : ControllerBase
+public class OpenLoopsController : BaseController
 {
     private readonly ILogger<OpenLoopsController> _logger;
 
@@ -20,6 +15,10 @@ public class OpenLoopsController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Get list of open loops.
+    /// </summary>
+    /// <returns>List of open loops.</returns>
     [HttpGet]
     [ProducesResponseType(typeof(GetOpenLoopsResponse), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Get()
@@ -41,7 +40,7 @@ public class OpenLoopsController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create([FromBody]CreateOpenLoopRequest request)
+    public async Task<IActionResult> Create([FromBody] CreateOpenLoopRequest request)
     {
         var openLoop = new OpenLoop(Guid.NewGuid(), request.Note, DateTimeOffset.UtcNow);
         var openLoopId = OpenLoopsRepository.Add(openLoop);

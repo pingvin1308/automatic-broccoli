@@ -10,11 +10,8 @@ using Npgsql;
 
 namespace AutomaticBroccoli.API.Controllers;
 
-[ApiController]
 [Route("v2/openLoops")]
-[Produces(MediaTypeNames.Application.Json)]
-[Consumes(MediaTypeNames.Application.Json)]
-public class OpenLoopsControllerV2 : ControllerBase
+public class OpenLoopsControllerV2 : BaseController
 {
     private readonly ILogger<OpenLoopsController> _logger;
     private readonly AutomaticBroccoliDbContext _context;
