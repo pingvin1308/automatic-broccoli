@@ -4,13 +4,16 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    var filePath = Path.Combine(AppContext.BaseDirectory, "AutomaticBroccoli.API.xml");
+    options.IncludeXmlComments(filePath);
+});
 
-builder.Services.AddDbContext<AutomaticBroccoliDbContext>(options => 
+builder.Services.AddDbContext<AutomaticBroccoliDbContext>(options =>
 {
     options
         // .UseLazyLoadingProxies()
