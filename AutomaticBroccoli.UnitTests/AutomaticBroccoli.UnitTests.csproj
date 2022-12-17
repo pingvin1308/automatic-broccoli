@@ -26,9 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutomaticBroccoli.DataAccess\AutomaticBroccoli.DataAccess.csproj" />
     <ProjectReference Include="..\AutomaticBroccoli.API\AutomaticBroccoli.API.csproj" />
-    <ProjectReference Include="..\AutomaticBroccoli.CLI\AutomaticBroccoli.CLI.csproj" />
   </ItemGroup>
 
 </Project>

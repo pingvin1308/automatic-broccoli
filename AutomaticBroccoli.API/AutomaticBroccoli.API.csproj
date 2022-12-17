@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutomaticBroccoli.DataAccess\AutomaticBroccoli.DataAccess.csproj" />
     <ProjectReference Include="..\AutomaticBroccoli.DataAccess.Postgres\AutomaticBroccoli.DataAccess.Postgres.csproj" />
   </ItemGroup>
 

@@ -16,8 +16,15 @@ public abstract class IntegrationTestBase : IDisposable
             .AddJsonFile("appsettings.json")
             .AddUserSecrets<IntegrationTestBase>()
             .Build();
-        
-        ConnectionString = configuration.GetConnectionString(nameof(AutomaticBroccoliDbContext));
+
+        var connectionString = configuration.GetConnectionString(nameof(AutomaticBroccoliDbContext));
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            var errorMessage = "connectionString cannot be null or empty. Please make sure that you have configured ConnectionString in user secrets for test project.";
+            throw new ArgumentNullException(errorMessage);
+        }
+
+        ConnectionString = connectionString;
 
         var factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
@@ -25,6 +32,7 @@ public abstract class IntegrationTestBase : IDisposable
 
                 builder.UseConfiguration(configuration);
             });
+
         Client = factory.CreateClient();
         _scope = factory.Services.CreateScope();
         Context = _scope.ServiceProvider.GetRequiredService<AutomaticBroccoliDbContext>();

@@ -54,7 +54,7 @@ public class OpenLoopsControllerV2Tests : IntegrationTestBase
 
     private async Task<GetOpenLoopsResponse?> GetOpenLoops(int userId)
     {
-        var response = await Client.GetAsync($"v2/OpenLoops?userId={userId}");
+        var response = await Client.GetAsync($"inbox/openLoops?userId={userId}");
         Assert.NotNull(response?.Content);
         response.EnsureSuccessStatusCode();
 

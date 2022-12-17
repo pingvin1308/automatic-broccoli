@@ -1,23 +1,38 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.Collections.Concurrent;
 using Npgsql;
 
 Console.WriteLine("Hello, World!");
 
 var connectionString = "User ID=postgres;Password=example123;Server=localhost;Port=15432;Database=AutomaticBroccoliDb;";
-using var connection = new NpgsqlConnection(connectionString);
+var poolSize = 10;
+var connectionPool = new ConcurrentBag<NpgsqlConnection>();
+var semaphore = new Semaphore(poolSize, poolSize);
+for (int i = 0; i < poolSize; i++)
+{
+    var connection = new NpgsqlConnection(connectionString);
+    connectionPool.Add(connection);
+}
 
-await connection.OpenAsync();
+Parallel.For(0, 500_000, new ParallelOptions { MaxDegreeOfParallelism = 8 }, async (_) =>
+{
+    semaphore.WaitOne();
+    NpgsqlConnection? connection = null;
+    do {} while (!connectionPool.TryTake(out connection));
 
-var count = await GetUsersTotal(connection);
+    await connection.OpenAsync();
+    var randomUserId = Random.Shared.Next(1, 800);
+    var user = await GetUsers(connection, $"test{randomUserId}@mail.ru");
+    Console.WriteLine(user.FirstOrDefault());
+    await connection.CloseAsync();
+    connectionPool.Add(connection);
+    semaphore.Release();
+});
 
-Console.WriteLine(count);
-
-var users = await GetUsers(connection);
-
-Console.WriteLine(string.Join("\r\n", users.Select(x => x.ToString())));
-
-var user = await GetUsers(connection, "test995@mail.ru");
-Console.WriteLine(user.FirstOrDefault());
+foreach (var connection in connectionPool)
+{
+    connection.Dispose();
+}
 
 // var sql = @"SELECT COUNT(1) FROM ""Users""";
 
