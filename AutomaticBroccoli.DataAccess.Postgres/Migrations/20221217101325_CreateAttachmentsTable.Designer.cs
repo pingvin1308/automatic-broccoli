@@ -3,6 +3,7 @@ using System;
 using AutomaticBroccoli.DataAccess.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AutomaticBroccoli.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(AutomaticBroccoliDbContext))]
-    partial class AutomaticBroccoliDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221217101325_CreateAttachmentsTable")]
+    partial class CreateAttachmentsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
