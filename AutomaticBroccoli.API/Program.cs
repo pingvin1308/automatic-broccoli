@@ -1,5 +1,7 @@
+using AutomaticBroccoli.API.Controllers;
 using AutomaticBroccoli.DataAccess.Postgres;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// app.UseAttachments();
+if (!Directory.Exists(Attachments.Path))
+{
+    Directory.CreateDirectory(Attachments.Path);
+}
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Attachments.Path),
+    RequestPath = "/inbox/attachments"
+});
 
 app.UseHttpsRedirection();
 

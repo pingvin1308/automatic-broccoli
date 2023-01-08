@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.DataAcces
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.DbLoad.CLI", "AutomaticBroccoli.DbLoad.CLI\AutomaticBroccoli.DbLoad.CLI.csproj", "{1C44E8E2-946F-4070-BC64-58710B16C42A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomaticBroccoli.Domain", "AutomaticBroccoli.Domain\AutomaticBroccoli.Domain.csproj", "{732915F1-DE34-4CF8-A13B-205D1C3A5018}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{1C44E8E2-946F-4070-BC64-58710B16C42A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C44E8E2-946F-4070-BC64-58710B16C42A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C44E8E2-946F-4070-BC64-58710B16C42A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{732915F1-DE34-4CF8-A13B-205D1C3A5018}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{732915F1-DE34-4CF8-A13B-205D1C3A5018}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{732915F1-DE34-4CF8-A13B-205D1C3A5018}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{732915F1-DE34-4CF8-A13B-205D1C3A5018}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

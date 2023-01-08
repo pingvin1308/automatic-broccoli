@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Mime;
 using AutomaticBroccoli.API.Contracts;
 using AutomaticBroccoli.DataAccess.Postgres;
 using AutomaticBroccoli.DataAccess.Postgres.Entities;
@@ -11,7 +12,7 @@ namespace AutomaticBroccoli.API.Controllers;
 /// List of operations for CRUD open loops.
 /// </summary>
 [Route("inbox")]
-public class InboxController : BaseController
+public sealed class InboxController : BaseController
 {
     private readonly AutomaticBroccoliDbContext _context;
 
@@ -21,7 +22,7 @@ public class InboxController : BaseController
     /// <param name="context">Instance of db context.</param>
     public InboxController(AutomaticBroccoliDbContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     /// <summary>
@@ -90,5 +91,32 @@ public class InboxController : BaseController
         await _context.SaveChangesAsync();
 
         return Ok(openLoop.Id);
+    }
+
+    [HttpPost("attachments")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> CreateAttachment(IFormFile file, [FromForm] string name)
+    {
+        var (fileName, attachmentId) = await Attachments.Create(file, name);
+        var attachment = new Attachment
+        {
+            Id = attachmentId,
+            Size = 0,
+            Link = fileName,
+            Name = fileName
+        };
+        _context.Attachments.Add(attachment);
+        await _context.SaveChangesAsync();
+
+        return Ok(attachment.Link);
+    }
+
+    [HttpGet("attachments")]
+    public async Task<IActionResult> GetAttachment(Guid attachmentId)
+    {
+        var filePath = "";
+        using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+        using var memoryStream = new MemoryStream();
+        return File(memoryStream.ToArray(), MediaTypeNames.Text.Plain, Guid.NewGuid().ToString());
     }
 }

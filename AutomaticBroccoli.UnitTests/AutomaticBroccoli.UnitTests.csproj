@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AutomaticBroccoli.API\AutomaticBroccoli.API.csproj" />
+    <ProjectReference Include="..\AutomaticBroccoli.Domain\AutomaticBroccoli.Domain.csproj" />
   </ItemGroup>
 
 </Project>

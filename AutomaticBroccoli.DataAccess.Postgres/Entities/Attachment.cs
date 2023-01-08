@@ -13,9 +13,7 @@ public class Attachment
 
     public string Link { get; set; }
 
-    public OpenLoop OpenLoop { get; set; }
-
-    public Guid OpenLoopId { get; set; }
+    public List<OpenLoop> OpenLoops { get; set; }
 }
 
 public sealed class AttachmentEntityConfiguration : IEntityTypeConfiguration<Attachment>

@@ -1,3 +1,4 @@
+using AutomaticBroccoli.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -28,6 +29,6 @@ public sealed class OpenLoopEntityConfiguration : IEntityTypeConfiguration<OpenL
     public void Configure(EntityTypeBuilder<OpenLoop> builder)
     {
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Note).HasMaxLength(500);
+        builder.Property(x => x.Note).HasMaxLength(Note.MaxNoteLength);
     }
 }

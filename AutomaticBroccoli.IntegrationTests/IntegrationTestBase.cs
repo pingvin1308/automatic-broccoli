@@ -1,3 +1,4 @@
+using AutomaticBroccoli.API.Controllers;
 using AutomaticBroccoli.DataAccess.Postgres;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
 using Respawn.Graph;
+using Xunit.Abstractions;
 
 namespace AutomaticBroccoli.IntegrationTests;
 
@@ -13,7 +15,7 @@ public abstract class IntegrationTestBase : IDisposable
 {
     private readonly IServiceScope _scope;
 
-    public IntegrationTestBase()
+    public IntegrationTestBase(ITestOutputHelper outputHelper)
     {
         var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
@@ -32,11 +34,10 @@ public abstract class IntegrationTestBase : IDisposable
         var factory = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
             {
-
                 builder.UseConfiguration(configuration);
             });
 
-        var httpClient = factory.CreateClient();
+        var httpClient = factory.CreateDefaultClient(new LoggingHandler(outputHelper));
         Client = new AutomaticBroccoliApiClient(httpClient);
         _scope = factory.Services.CreateScope();
         Context = _scope.ServiceProvider.GetRequiredService<AutomaticBroccoliDbContext>();
@@ -52,6 +53,12 @@ public abstract class IntegrationTestBase : IDisposable
     }
 
     protected async Task CleanAsync()
+    {
+        await CleanDatabaseAsync();
+        Directory.Delete(Attachments.Path, true);
+    }
+
+    protected async Task CleanDatabaseAsync()
     {
         using var connection = new NpgsqlConnection(ConnectionString);
         await connection.OpenAsync();
