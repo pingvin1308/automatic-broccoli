@@ -1,100 +1,51 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Collections.Concurrent;
+using AutomaticBroccoli.DbLoad.CLI;
+using NBomber.Contracts;
+using NBomber.CSharp;
 using Npgsql;
 
-Console.WriteLine("Hello, World!");
-
-var connectionString = "User ID=postgres;Password=example123;Server=localhost;Port=15432;Database=AutomaticBroccoliDb;";
-var poolSize = 10;
+var poolSize = 100;
 var connectionPool = new ConcurrentBag<NpgsqlConnection>();
 var semaphore = new Semaphore(poolSize, poolSize);
 for (int i = 0; i < poolSize; i++)
 {
-    var connection = new NpgsqlConnection(connectionString);
+    var connection = new NpgsqlConnection(BroccoliDatabase.ConnectionString);
     connectionPool.Add(connection);
 }
 
-Parallel.For(0, 500_000, new ParallelOptions { MaxDegreeOfParallelism = 8 }, async (_) =>
-{
-    semaphore.WaitOne();
-    NpgsqlConnection? connection = null;
-    do {} while (!connectionPool.TryTake(out connection));
-
-    await connection.OpenAsync();
-    var randomUserId = Random.Shared.Next(1, 800);
-    var user = await GetUsers(connection, $"test{randomUserId}@mail.ru");
-    Console.WriteLine(user.FirstOrDefault());
-    await connection.CloseAsync();
-    connectionPool.Add(connection);
-    semaphore.Release();
-});
-
-foreach (var connection in connectionPool)
-{
-    connection.Dispose();
-}
-
-// var sql = @"SELECT COUNT(1) FROM ""Users""";
-
-// using var command = new NpgsqlCommand(sql, connection);
-// command.Parameters.Clear();
-
-async Task<long> GetUsersTotal(NpgsqlConnection connection)
-{
-    if (connection.State == System.Data.ConnectionState.Closed)
+var step = Step.Create("fetch user's notes",
+    execute: async context =>
     {
-        throw new ArgumentException("Connection cannot be closed");
-    }
+        semaphore.WaitOne();
+        NpgsqlConnection? connection = null;
+        do { } while (!connectionPool.TryTake(out connection));
 
-    var sql = @"SELECT COUNT(1) FROM ""Users""";
+        await connection.OpenAsync();
 
-    using var command = new NpgsqlCommand(sql, connection);
-    command.Parameters.Clear();
+        var randomUserId = Random.Shared.Next(1, 1800);
+        var userNotes = await BroccoliDatabase.GetUserNotes(connection, $"test{randomUserId}@mail.ru");
+        if (userNotes.Any())
+        {
+            var user = userNotes.First();
+            var userNotesInfo = $"UserId: '{user.UserId}', Login: '{user.Login}', Count:'{userNotes.Length}'";
+            // Console.WriteLine(userNotesInfo);
+        }
 
-    var count = (long?)await command.ExecuteScalarAsync() ?? 0;
-    return count;
-}
+        await connection.CloseAsync();
+        connectionPool.Add(connection);
+        semaphore.Release();
 
-async Task<User[]> GetUsers(NpgsqlConnection connection, string? login = null)
-{
-    if (connection.State == System.Data.ConnectionState.Closed)
-    {
-        throw new ArgumentException("Connection cannot be closed");
-    }
+        return Response.Ok();
+    });
 
-    var sql = @"
-        SELECT ""Id"", ""Login"", ""CreatedDate""
-        FROM ""Users""
-        WHERE 1=1";
+var scenario = ScenarioBuilder
+    .CreateScenario("postgres", step)
+    .WithWarmUpDuration(TimeSpan.FromSeconds(5))
+    .WithLoadSimulations(
+        Simulation.InjectPerSec(rate: 1000, during: TimeSpan.FromSeconds(120))
+    );
 
-    using var command = new NpgsqlCommand(sql, connection);
-    command.Parameters.Clear();
-
-    if (login != null)
-    {
-        command.CommandText += @" AND ""Login"" = @Login";
-        command.Parameters.Add(new NpgsqlParameter("@Login", login));
-    }
-
-    using var reader = await command.ExecuteReaderAsync();
-
-    if (!reader.HasRows)
-    {
-        return Array.Empty<User>();
-    }
-
-    var users = new List<User>();
-    while (await reader.ReadAsync())
-    {
-        var user = new User(
-            Id: (int)reader.GetValue(0),
-            Login: (string)reader[nameof(User.Login)],
-            CreatedDate: reader.GetDateTime(2)
-        );
-        users.Add(user);
-    }
-
-    return users.ToArray();
-}
-
-record User(int Id, string Login, DateTimeOffset CreatedDate);
+NBomberRunner
+    .RegisterScenarios(scenario)
+    .Run();
